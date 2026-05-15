@@ -1,14 +1,959 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Majumdar & Associates</title>
-	<style>
-		h1{text-align: center;}
-	</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Majumdar & Associates</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --gold: #c9a227;
+      --light-gold: #e5c76b;
+      --white: #ffffff;
+      --gray: #f8fafc;
+      --text: #475569;
+      --border: rgba(255,255,255,0.1);
+      --shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
+      --radius: 18px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    section {
+      padding: 90px 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--light-gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* NAVBAR */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+    }
+
+    header.scrolled {
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      color: var(--white);
+      font-size: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      color: var(--white);
+      align-items: center;
+    }
+
+    .nav-links a {
+      position: relative;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 28px;
+      height: 3px;
+      background: white;
+      border-radius: 10px;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+        url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat;
+      color: var(--white);
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 720px;
+      padding-top: 100px;
+    }
+
+    .hero-subtitle {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 35px;
+      max-width: 640px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* STATS */
+    .stats {
+      background: var(--primary);
+      color: white;
+      padding: 60px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      text-align: center;
+    }
+
+    .stat-card h2 {
+      color: var(--gold);
+      font-size: 3rem;
+      margin-bottom: 8px;
+    }
+
+    .stat-card p {
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 60px;
+      align-items: center;
+    }
+
+    .section-tag {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 22px;
+    }
+
+    .about-text p {
+      margin-bottom: 20px;
+    }
+
+    .about-features {
+      margin-top: 30px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 500;
+      color: var(--secondary);
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(201,162,39,0.12);
+      color: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image img {
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      height: 620px;
+      object-fit: cover;
+    }
+
+    /* SERVICES */
+    .services {
+      background: var(--gray);
+    }
+
+    .services-header {
+      text-align: center;
+      max-width: 760px;
+      margin: auto auto 60px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 36px;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      border: 1px solid rgba(15,23,42,0.06);
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      background: rgba(201,162,39,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 1.6rem;
+      color: var(--gold);
+    }
+
+    .service-card h3 {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .team-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .team-card img {
+      height: 360px;
+      object-fit: cover;
+    }
+
+    .team-content {
+      padding: 28px;
+    }
+
+    .team-content h3 {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .team-role {
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+    }
+
+    .testimonial .section-title {
+      color: white;
+    }
+
+    .testimonial-box {
+      max-width: 860px;
+      margin: auto;
+      padding: 50px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+
+    .testimonial-text {
+      font-size: 1.3rem;
+      line-height: 1.9;
+      margin-bottom: 24px;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .client-name {
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px;
+      align-items: start;
+    }
+
+    .contact-info {
+      display: grid;
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .contact-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(201,162,39,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    form {
+      background: white;
+      padding: 40px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #dbe2ea;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,162,39,0.15);
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.75);
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    footer p {
+      margin-top: 10px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .about-grid,
+      .contact-grid,
+      .services-grid,
+      .team-grid,
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 70px 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        flex-direction: column;
+        padding: 30px 0;
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: var(--transition);
+      }
+
+      .nav-links.active {
+        transform: scaleY(1);
+      }
+
+      .about-grid,
+      .contact-grid,
+      .services-grid,
+      .team-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .testimonial-box {
+        padding: 35px 25px;
+      }
+
+      form {
+        padding: 28px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-   <h1>Majumdar & Associates</h1>
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="container navbar">
+      <a href="#" class="logo">Majumdar<span>&</span>Asociates</a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Practice Areas</a></li>
+        <li><a href="#team">Attorneys</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-subtitle">Trusted Legal Excellence Since 1998</div>
+
+        <h1>Strategic Legal Counsel For Businesses & Individuals</h1>
+
+        <p>
+          Majumdar & Associates delivers sophisticated legal representation with integrity,
+          precision, and unwavering commitment to achieving the best outcomes for our clients.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#contact" class="btn btn-primary">Schedule Consultation</a>
+          <a href="#services" class="btn btn-outline">Explore Services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat-card">
+        <h2>25+</h2>
+        <p>Years of Experience</p>
+      </div>
+
+      <div class="stat-card">
+        <h2>98%</h2>
+        <p>Successful Case Outcomes</p>
+      </div>
+
+      <div class="stat-card">
+        <h2>3K+</h2>
+        <p>Clients Represented</p>
+      </div>
+
+      <div class="stat-card">
+        <h2>40+</h2>
+        <p>Legal Specialists</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container about-grid">
+
+      <div class="about-text">
+        <div class="section-tag">About Our Firm</div>
+        <h2 class="section-title">Legal Representation Built On Trust & Results</h2>
+
+        <p>
+          We are a full-service law firm providing high-level legal solutions for corporations,
+          entrepreneurs, and individuals. Our attorneys combine deep industry knowledge with
+          personalized client attention.
+        </p>
+
+        <p>
+          Every case is approached with meticulous preparation, strategic insight, and dedication
+          to protecting our clients' interests.
+        </p>
+
+        <div class="about-features">
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Tailored Legal Strategies</span>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Confidential & Professional Service</span>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">✓</div>
+            <span>Dedicated Senior Attorneys</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop" alt="Law Firm Office">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+
+      <div class="services-header">
+        <div class="section-tag">Practice Areas</div>
+        <h2 class="section-title">Comprehensive Legal Services</h2>
+        <p>
+          We provide strategic legal guidance across a wide range of practice areas,
+          delivering exceptional advocacy and practical business-focused solutions.
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-icon">⚖</div>
+          <h3>Corporate Law</h3>
+          <p>
+            Legal solutions for mergers, acquisitions, compliance, governance,
+            contracts, and business structuring.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🏛</div>
+          <h3>Litigation</h3>
+          <p>
+            Aggressive courtroom representation and strategic dispute resolution
+            for complex legal matters.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">📑</div>
+          <h3>Real Estate Law</h3>
+          <p>
+            Professional legal guidance for commercial transactions,
+            property disputes, and development projects.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🛡</div>
+          <h3>Criminal Defense</h3>
+          <p>
+            Strong defense strategies with unwavering protection of clients'
+            rights and legal interests.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">👨‍⚖</div>
+          <h3>Family Law</h3>
+          <p>
+            Compassionate representation for divorce, custody, support,
+            and family-related legal matters.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">💼</div>
+          <h3>Employment Law</h3>
+          <p>
+            Legal counsel for workplace disputes, employment agreements,
+            and labor compliance.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="container">
+
+      <div class="services-header">
+        <div class="section-tag">Our Attorneys</div>
+        <h2 class="section-title">Meet The Legal Experts</h2>
+      </div>
+
+      <div class="team-grid">
+
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1200&auto=format&fit=crop" alt="Attorney">
+
+          <div class="team-content">
+            <h3>Jonathan Pierce</h3>
+            <div class="team-role">Senior Partner</div>
+            <p>
+              Specialist in corporate litigation and strategic business law with over 20 years of experience.
+            </p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200&auto=format&fit=crop" alt="Attorney">
+
+          <div class="team-content">
+            <h3>Emma Hamilton</h3>
+            <div class="team-role">Managing Partner</div>
+            <p>
+              Expert legal advisor known for exceptional negotiation and client-focused representation.
+            </p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop" alt="Attorney">
+
+          <div class="team-content">
+            <h3>David Reynolds</h3>
+            <div class="team-role">Litigation Attorney</div>
+            <p>
+              Skilled courtroom advocate with extensive experience handling high-profile disputes.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="testimonial">
+    <div class="container">
+      <div class="section-tag">Client Testimonial</div>
+      <h2 class="section-title">Trusted By Clients Nationwide</h2>
+
+      <div class="testimonial-box">
+        <p class="testimonial-text">
+          “Majumdar & Associates provided exceptional legal guidance during one of the most critical moments for our company.
+          Their professionalism, responsiveness, and strategic expertise exceeded every expectation.”
+        </p>
+
+        <div class="client-name">— Michael Anderson, CEO</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container contact-grid">
+
+      <div>
+        <div class="section-tag">Get In Touch</div>
+        <h2 class="section-title">Schedule A Confidential Consultation</h2>
+
+        <p>
+          Contact our legal team today to discuss your matter and receive strategic legal guidance tailored to your needs.
+        </p>
+
+        <div class="contact-info">
+
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <h4>Office Address</h4>
+              <p>Shelcon Plaza , Office No. C-12,Upper Ground Floor, Opp. M Bazar, Sevoke Road, Siliguri(WB), Pin-734001</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <h4>Phone Number</h4>
+              <p>+91 94762 96580</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">✉</div>
+            <div>
+              <h4>Email Address</h4>
+              <p>asimmajumdaradv@gmail.com</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <form>
+        <div class="form-group">
+          <input type="text" placeholder="Full Name" required>
+        </div>
+
+        <div class="form-group">
+          <input type="email" placeholder="Email Address" required>
+        </div>
+
+        <div class="form-group">
+          <input type="tel" placeholder="Phone Number">
+        </div>
+
+        <div class="form-group">
+          <textarea placeholder="Tell us about your legal matter"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+          Request Consultation
+        </button>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <h3 class="logo">Majumdar<span>&</span>Associates</h3>
+      <p>© 2026 Associates Law Firm. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    // Sticky Header
+    const header = document.getElementById('header');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu on click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+
+        if(target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Form Submission Demo
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you! Your consultation request has been submitted.');
+      form.reset();
+    });
+  </script>
+
 </body>
 </html>
